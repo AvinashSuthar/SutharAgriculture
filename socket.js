@@ -5,7 +5,21 @@ const socketHandler = (io) => {
 
   io.on("connection", (socket) => {
     console.log("A client connected");
+    // Handle device state updates
+    socket.on("updateState", async ({ deviceId, state }) => {
+      try {
+        const device = await Device.findOneAndUpdate(
+          { deviceId },
+          { state, lastStateChange: new Date() },
+          { new: true }
+        );
 
+        // Emit the full updated device object to all clients
+        io.emit("stateUpdated", device);
+      } catch (error) {
+        console.error("Error updating state:", error);
+      }
+    });
     // Handle reset timer event
     socket.on("resetTimer", async ({ deviceId }) => {
       try {
