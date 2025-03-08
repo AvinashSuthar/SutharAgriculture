@@ -19,11 +19,12 @@ const io = new Server(server, {
 // Middleware
 app.use(
   cors({
-    origin: "*", // Allow multiple origins
-    methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"], // Allowed HTTP methods
-    credentials: true, // Allow credentials like cookies or headers
+    origin: true, // Reflects the request origin dynamically
+    methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
+    credentials: true,
   })
 );
+
 
 
 app.use(express.json());
