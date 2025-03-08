@@ -29,3 +29,44 @@ exports.createDevice = async (req, res) => {
     res.status(500).send({ error: "Failed to create device" });
   }
 };
+exports.setStopwatch = async (req, res) => {
+  try {
+    const { deviceId, stopwatch } = req.body;
+    console.log("Received:", deviceId, stopwatch);
+
+    const device = await Device.findOne({ deviceId });
+
+    if (!device) {
+      return res.status(404).json({ error: "Device not found" });
+    }
+
+    device.stopwatch = stopwatch; // Assign value (if it's a field)
+
+    await device.save();
+
+    res.json({ message: "Stopwatch updated successfully", device });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).json({ error: error.message });
+  }
+};
+exports.resetStopwatch = async (req, res) => {
+  try {
+    const { deviceId } = req.body;
+
+    const device = await Device.findOne({ deviceId });
+
+    if (!device) {
+      return res.status(404).json({ error: "Device not found" });
+    }
+
+    device.stopwatch = null; // Assign value (if it's a field)
+
+    await device.save();
+
+    res.json({ message: "Stopwatch updated successfully", device });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).json({ error: error.message });
+  }
+};
