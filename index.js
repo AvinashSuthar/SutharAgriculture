@@ -19,7 +19,7 @@ const io = new Server(server, {
 // Middleware
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://krishi.avinashsuthar.in"], // Allow multiple origins
+    origin: "*", // Allow multiple origins
     methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"], // Allowed HTTP methods
     credentials: true, // Allow credentials like cookies or headers
   })
